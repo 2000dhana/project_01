@@ -1,7 +1,7 @@
 <!-- <?php
 
 include 'connect.php';
-
+include 'server_1.php';
 // Process form data when submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $name = $_POST['name'];
@@ -360,6 +360,59 @@ form {
 
 }
 
+header {
+    background-color: #333;
+    color: #fff;
+    padding: 10px 0;
+    text-align: center;
+}
+
+.container {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 0 20px;
+}
+
+/* Styling for the table */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+table, th, td {
+    border: 1px solid #ddd;
+}
+
+th, td {
+    padding: 8px;
+    text-align: left;
+}
+
+th {
+    background-color: #f2f2f2;
+}
+
+/* Styling for action buttons */
+button {
+    padding: 5px 10px;
+    margin-right: 5px;
+    cursor: pointer;
+}
+
+button.accept {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+}
+
+button.reject {
+    background-color: #f44336;
+    color: white;
+    border: none;
+}
+
+
     </style>
     <title>Admin Dashboard</title>
 </head>
@@ -439,6 +492,42 @@ form {
         </form>
             </div>
         </div>
+    </div>
+    <div class="container">
+        <h2>Pending Contact Agent Requests</h2>
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Gender</th>
+                    <th>Number</th>
+                    <th>Email</th>
+                    <th>Preferred Contact Method</th>
+                    <th>Best Time to Contact</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="agentRequests">
+                <!-- PHP code to populate pending requests -->
+                <?php include 'server_1.php'; ?>
+                <?php foreach ($pending_agent_requests as $row): ?>
+                <tr>
+                    <td><?php echo htmlspecialchars($row['first_name']); ?></td>
+                    <td><?php echo htmlspecialchars($row['last_name']); ?></td>
+                    <td><?php echo htmlspecialchars($row['gender']); ?></td>
+                    <td><?php echo htmlspecialchars($row['number']); ?></td>
+                    <td><?php echo htmlspecialchars($row['email']); ?></td>
+                    <td><?php echo htmlspecialchars($row['preffered_com_method']); ?></td>
+                    <td><?php echo htmlspecialchars($row['time_to_contact']); ?></td>
+                    <td>
+                        <button onclick="acceptRequest(<?php echo $row['id']; ?>)">Accept</button>
+                        <button onclick="rejectRequest(<?php echo $row['id']; ?>)">Reject</button>
+                    </td>
+                </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
     </div>
 </body>
 </html>
